@@ -185,11 +185,13 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_umbralSliderStateChanged
 
     private void dimensionTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dimensionTextFieldKeyReleased
+        if(!(matchesTextConditions()))return;
         if(somethingEmpty() || exceedLimit()) return;
         execute();
     }//GEN-LAST:event_dimensionTextFieldKeyReleased
 
     private void minValueTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_minValueTextFieldKeyReleased
+        if(!(matchesTextConditions()))return;
         if(somethingEmpty() || exceedLimit()) return;
         refreshValues();
         if(maxValueIsLesserThanMinValue()){
@@ -198,11 +200,8 @@ public class MainFrame extends javax.swing.JFrame {
         executeNoRefreshingValues();
     }//GEN-LAST:event_minValueTextFieldKeyReleased
 
-    private boolean maxValueIsLesserThanMinValue() throws NumberFormatException {
-        return (max - min) < 0;
-    }
-
     private void maxValueTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_maxValueTextFieldKeyReleased
+        if(!(matchesTextConditions()))return;
         if(somethingEmpty() || exceedLimit()) return;
         refreshValues();
         if(maxValueIsLesserThanMinValue()){
@@ -211,6 +210,10 @@ public class MainFrame extends javax.swing.JFrame {
         executeNoRefreshingValues();
     }//GEN-LAST:event_maxValueTextFieldKeyReleased
 
+    
+    private boolean maxValueIsLesserThanMinValue() throws NumberFormatException {
+        return (max - min) < 0;
+    }
     
     /**
      * @param args the command line arguments
@@ -325,6 +328,15 @@ public class MainFrame extends javax.swing.JFrame {
             return true;
         }
         return false;
+    }
+    
+    private boolean matchesTextConditions(){
+        if(!(maxValueTextField.getText().matches("[0-9]+") ||
+                minValueTextField.getText().matches("[0-9]+") || 
+                    dimensionTextField.getText().matches("[0-9]+"))){
+            return false;
+        }
+        return true;
     }
 
     private boolean somethingEmpty() {
